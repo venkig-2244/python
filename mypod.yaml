@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: mypod
+  name: mypod
+spec:
+  containers:
+  - image: busybox
+    name: mypod
+    resources: 
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 200m
+        memory: 512Mi
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do date >> /var/date.log; sleep 5; done"]
+    volumeMounts:
+    - name: config-secret
+      mountPath: /tmp
+    - name: data-log
+      mountPath: /var
+    livenessProbe:
+      exec:
+        command: ["ls","/var/date.log"]
+      initialDelaySeconds: 30
+      periodSeconds: 10 
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+  volumes:
+  - name: config-secret
+    secret:
+      secretName: mysecret
+  - name: data-log
+    emptyDir: {}
+
+status: {}

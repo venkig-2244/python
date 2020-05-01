@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: mysql
+spec:
+    replicas: 1
+    strategy:
+        type: RollingUpdate
+    selector:
+        matchLabels:
+            app: mysql
+    template:
+        metadata:
+            name: mysql
+            labels:
+                app: mysql
+        spec:
+            containers:
+            - name: mysql
+              image: mysql:5.6
+              env:
+              - name: MYSQL_DB_PASSWORD
+                value: password
+              - name: MYSQL_ROOT_PASSWORD
+                value: password
+              volumeMounts:
+              - name: mysql-data
+                mountPath: /var/lib/mysql
+              ports:
+              -  containerPort: 80
+                 name: mysql
+            volumes:
+            - name: mysql-data
+              persistentVolumeClaim:
+                claimName: pvc-mysql

@@ -1,0 +1,8 @@
+aniso8601==3.0.2
+click==6.7
+itsdangerous==0.24
+Jinja2==2.10
+pytz==2018.5
+six==1.11.0
+Werkzeug==0.14.1
+mysql-connector-python

@@ -1,0 +1,24 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: alert-report
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: alert-report
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: busybox
+            name: alert-report
+            resources: {}
+          restartPolicy: Never
+      completions: 5
+      backoffLimit: 3
+  schedule: '0 * * * *'
+status: {}
